@@ -34,7 +34,7 @@ export default function LoginScreen({ onLogin }: Props) {
           <select value={selectedUserId} onChange={e => setSelectedUserId(e.target.value)}>
             {USERS.map(u => (
               <option key={u.cuit} value={u.cuit}>
-                {u.name} ({último: u.role === 'admin' ? 'Administrador' : 'Cliente'})
+                {u.name} ({u.role === 'admin' ? 'Administrador' : 'Cliente'})
               </option>
             ))}
           </select>
