@@ -4,6 +4,8 @@ import { formatFecha } from '@/lib/utils'
 import ModalArca from '../modals/ModalArca'
 import type { ClientData, ARCAMessage } from '@/lib/types'
 
+const ICON_MAIL = String.fromCodePoint(0x1F4EC)
+
 interface Props {
   clientData: ClientData
   isAdmin: boolean
@@ -12,10 +14,15 @@ interface Props {
 
 const TIPO_BADGE: Record<string, string> = {
   'Requerimiento': 'badge-red',
-  'Intimaci\u00F3n': 'badge-red',
-  'Notificaci\u00F3n': 'badge-blue',
-  'Resoluci\u00F3n': 'badge-orange',
-  'Informaci\u00F3n': 'badge-gray',
+  'Intimacion': 'badge-red',
+  'Notificacion': 'badge-blue',
+  'Notificacion': 'badge-blue',
+  'Resolucion': 'badge-orange',
+  'Informacion': 'badge-gray',
+  'Intimaci?n': 'badge-red',
+  'Notificaci?n': 'badge-blue',
+  'Resoluci?n': 'badge-orange',
+  'Informaci?n': 'badge-gray',
 }
 
 export default function ArcaPage({ clientData, isAdmin, onUpdate }: Props) {
@@ -49,7 +56,7 @@ export default function ArcaPage({ clientData, isAdmin, onUpdate }: Props) {
         </div>
         {clientData.arca.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-icon">\u{1F4EC}</div>
+            <div className="empty-icon">{ICON_MAIL}</div>
             No hay mensajes cargados.
           </div>
         ) : (
@@ -57,30 +64,26 @@ export default function ArcaPage({ clientData, isAdmin, onUpdate }: Props) {
             <thead>
               <tr>
                 <th>Fecha</th><th>Asunto</th><th>Tipo</th>
-                <th>Descripci\u00F3n</th><th>Estado</th><th></th>
+                <th>Descripci?n</th><th>Estado</th><th></th>
               </tr>
             </thead>
             <tbody>
               {clientData.arca.map((msg, i) => (
-                <tr key={i}>
+                <tr key={i} style={{ opacity: msg.leido ? 0.7 : 1 }}>
                   <td>{formatFecha(msg.fecha)}</td>
-                  <td><strong>{msg.asunto}</strong></td>
-                  <td>
-                    <span className={`badge ${TIPO_BADGE[msg.tipo] || 'badge-gray'}`}>
-                      {msg.tipo}
-                    </span>
-                  </td>
-                  <td style={{ maxWidth: 300, fontSize: 13, color: '#6b7280' }}>{msg.desc}</td>
+                  <td style={{ fontWeight: msg.leido ? 'normal' : 'bold' }}>{msg.asunto}</td>
+                  <td><span className={TIPO_BADGE[msg.tipo] || 'badge-gray'}>{msg.tipo}</span></td>
+                  <td>{msg.desc}</td>
                   <td>
                     {msg.leido
-                      ? <span className="badge badge-gray">Le\u00EDdo</span>
-                      : <span className="badge badge-blue">Nuevo</span>
+                      ? <span className="badge-gray">Le?do</span>
+                      : <span className="badge-red">Sin leer</span>
                     }
                   </td>
                   <td>
                     {!msg.leido && (
-                      <button className="btn-sm btn-download" onClick={() => marcarLeido(i)}>
-                        \u2713 Marcar le\u00EDdo
+                      <button className="btn-sm" onClick={() => marcarLeido(i)}>
+                        Marcar le?do
                       </button>
                     )}
                   </td>
