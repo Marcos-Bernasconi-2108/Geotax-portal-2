@@ -28,7 +28,6 @@ export default function DdjjPage({ clientData, isAdmin, onUpdate }: Props) {
     setShowModal(false)
   }
 
-  // Agrupar por tipo de impuesto
   const grupos: Record<string, DDJJRecord[]> = {}
   clientData.ddjj.forEach(d => {
     if (!grupos[d.tipo]) grupos[d.tipo] = []
@@ -40,7 +39,7 @@ export default function DdjjPage({ clientData, isAdmin, onUpdate }: Props) {
     <div>
       <div className="page-header">
         <h1>Mis Declaraciones Juradas</h1>
-        <p>Presentaciones realizadas ante AFIP / ARCA \u2014 organizadas por impuesto</p>
+        <p>Presentaciones realizadas ante AFIP / ARCA — organizadas por impuesto</p>
       </div>
       <div className="table-card">
         <div className="table-card-header">
@@ -53,26 +52,26 @@ export default function DdjjPage({ clientData, isAdmin, onUpdate }: Props) {
         </div>
         {clientData.ddjj.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-icon">\u{1F4C4}</div>
-            No hay DDJJ cargadas a\u00FAn.
+            <div className="empty-icon">📄</div>
+            No hay DDJJ cargadas aún.
           </div>
         ) : (
           Object.entries(grupos).map(([tipo, items]) => (
             <div key={tipo} className="folder-group">
               <div className="folder-header" onClick={() => toggleFolder(tipo)}>
-                <span className="folder-icon">\u{1F4C1}</span>
+                <span className="folder-icon">📁</span>
                 <span className="folder-name">{tipo}</span>
                 <span className="folder-count">
-                  {items.length} presentaci\u00F3n{items.length !== 1 ? 'es' : ''}
+                  {items.length} presentación{items.length !== 1 ? 'es' : ''}
                 </span>
-                <span className={`folder-arrow${openFolders.has(tipo) ? ' open' : ''}`}>\u203A</span>
+                <span className={`folder-arrow${openFolders.has(tipo) ? ' open' : ''}`}>›</span>
               </div>
               {openFolders.has(tipo) && (
                 <table>
                   <thead>
                     <tr>
-                      <th>Per\u00EDodo</th><th>Fecha</th>
-                      <th>N\u00B0 Transacci\u00F3n</th><th>Estado</th><th>Archivo</th>
+                      <th>Período</th><th>Fecha</th>
+                      <th>N° Transacción</th><th>Estado</th><th>Archivo</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -85,9 +84,9 @@ export default function DdjjPage({ clientData, isAdmin, onUpdate }: Props) {
                         <td>
                           <button
                             className="btn-sm btn-download"
-                            onClick={() => alert(`\u{1F4E5} Descargando: ${r.archivo}`)}
+                            onClick={() => alert(`Descargando: ${r.archivo}`)}
                           >
-                            \u2B07 Descargar
+                            ⬇ Descargar
                           </button>
                         </td>
                       </tr>

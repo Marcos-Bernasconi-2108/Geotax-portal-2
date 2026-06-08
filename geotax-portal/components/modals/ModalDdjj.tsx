@@ -15,7 +15,7 @@ export default function ModalDdjj({ onSave, onClose }: Props) {
   const [archivo, setArchivo] = useState('')
 
   function handleSave() {
-    if (!periodo || !fecha) { alert('Complete per\u00EDodo y fecha'); return }
+    if (!periodo || !fecha) { alert('Complete período y fecha'); return }
     onSave({ tipo, periodo, fecha, nro, archivo: archivo || `DDJJ_${tipo}_${periodo}.pdf` })
   }
 
@@ -24,27 +24,27 @@ export default function ModalDdjj({ onSave, onClose }: Props) {
       <div className="modal">
         <h2>Cargar DDJJ</h2>
         <div className="form-group">
-          <label>Impuesto / R\u00E9gimen</label>
+          <label>Impuesto / Régimen</label>
           <select value={tipo} onChange={e => setTipo(e.target.value)}>
             <option>IVA</option>
-            <option>Ganancias Personas F\u00EDsicas</option>
+            <option>Ganancias Personas Físicas</option>
             <option>Bienes Personales</option>
             <option>Monotributo</option>
             <option>IIBB Convenio Multilateral</option>
-            <option>Aut\u00F3nomos</option>
+            <option>Autónomos</option>
             <option>Otro</option>
           </select>
         </div>
         <div className="form-group">
-          <label>Per\u00EDodo</label>
+          <label>Período</label>
           <input type="text" placeholder="Ej: Mayo 2026 / Anual 2025" value={periodo} onChange={e => setPeriodo(e.target.value)} />
         </div>
         <div className="form-group">
-          <label>Fecha de Presentaci\u00F3n</label>
+          <label>Fecha de Presentación</label>
           <input type="date" value={fecha} onChange={e => setFecha(e.target.value)} />
         </div>
         <div className="form-group">
-          <label>N\u00FAmero de Transacci\u00F3n</label>
+          <label>Número de Transacción</label>
           <input type="text" placeholder="Ej: 1234567890" value={nro} onChange={e => setNro(e.target.value)} />
         </div>
         <div className="form-group">

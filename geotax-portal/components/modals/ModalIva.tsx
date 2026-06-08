@@ -12,16 +12,16 @@ export default function ModalIva({ onSave, onClose }: Props) {
   const [archivo, setArchivo] = useState('')
 
   function handleSave() {
-    if (!periodo) { alert('Ingrese el per\u00EDodo'); return }
+    if (!periodo) { alert('Ingrese el período'); return }
     onSave({ periodo, archivo: archivo || `WP_IVA_${periodo}.xlsx` })
   }
 
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="modal">
-        <h2>Cargar Liquidaci\u00F3n IVA</h2>
+        <h2>Cargar Liquidación IVA</h2>
         <div className="form-group">
-          <label>Per\u00EDodo (mes / a\u00F1o)</label>
+          <label>Período (mes / año)</label>
           <input type="month" value={periodo} onChange={e => setPeriodo(e.target.value)} />
         </div>
         <div className="form-group">

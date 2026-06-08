@@ -12,10 +12,10 @@ interface Props {
 
 const TIPO_BADGE: Record<string, string> = {
   'Requerimiento': 'badge-red',
-  'Intimaci\u00F3n': 'badge-red',
-  'Notificaci\u00F3n': 'badge-blue',
-  'Resoluci\u00F3n': 'badge-orange',
-  'Informaci\u00F3n': 'badge-gray',
+  'Intimación': 'badge-red',
+  'Notificación': 'badge-blue',
+  'Resolución': 'badge-orange',
+  'Información': 'badge-gray',
 }
 
 export default function ArcaPage({ clientData, isAdmin, onUpdate }: Props) {
@@ -49,7 +49,7 @@ export default function ArcaPage({ clientData, isAdmin, onUpdate }: Props) {
         </div>
         {clientData.arca.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-icon">\u{1F4EC}</div>
+            <div className="empty-icon">📬</div>
             No hay mensajes cargados.
           </div>
         ) : (
@@ -57,7 +57,7 @@ export default function ArcaPage({ clientData, isAdmin, onUpdate }: Props) {
             <thead>
               <tr>
                 <th>Fecha</th><th>Asunto</th><th>Tipo</th>
-                <th>Descripci\u00F3n</th><th>Estado</th><th></th>
+                <th>Descripción</th><th>Estado</th><th></th>
               </tr>
             </thead>
             <tbody>
@@ -73,14 +73,14 @@ export default function ArcaPage({ clientData, isAdmin, onUpdate }: Props) {
                   <td style={{ maxWidth: 300, fontSize: 13, color: '#6b7280' }}>{msg.desc}</td>
                   <td>
                     {msg.leido
-                      ? <span className="badge badge-gray">Le\u00EDdo</span>
+                      ? <span className="badge badge-gray">Leído</span>
                       : <span className="badge badge-blue">Nuevo</span>
                     }
                   </td>
                   <td>
                     {!msg.leido && (
                       <button className="btn-sm btn-download" onClick={() => marcarLeido(i)}>
-                        \u2713 Marcar le\u00EDdo
+                        ✓ Marcar leído
                       </button>
                     )}
                   </td>

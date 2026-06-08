@@ -9,11 +9,11 @@ interface Props {
 }
 
 const NAV_ITEMS: { id: Page; icon: string; label: string }[] = [
-  { id: 'dashboard', icon: '\u{1F3E0}', label: 'Inicio' },
-  { id: 'arca',      icon: '\u{1F514}', label: 'Mensajes ARCA' },
-  { id: 'iva',       icon: '\u{1F4CA}', label: 'Liquidaci\u00F3n IVA' },
-  { id: 'ddjj',      icon: '\u{1F4C4}', label: 'Mis DDJJ' },
-  { id: 'veps',      icon: '\u{1F4B3}', label: 'VEPs' },
+  { id: 'dashboard', icon: '🏠', label: 'Inicio' },
+  { id: 'arca',      icon: '🔔', label: 'Mensajes ARCA' },
+  { id: 'iva',       icon: '📊', label: 'Liquidación IVA' },
+  { id: 'ddjj',      icon: '📄', label: 'Mis DDJJ' },
+  { id: 'veps',      icon: '💳', label: 'VEPs' },
 ]
 
 export default function Sidebar({ currentUser, currentPage, onNavigate, onLogout }: Props) {
@@ -39,7 +39,7 @@ export default function Sidebar({ currentUser, currentPage, onNavigate, onLogout
       <div className="sidebar-footer">
         <strong>{currentUser.name}</strong>
         <span>{currentUser.cuit}</span>
-        <button className="logout-btn" onClick={onLogout}>Cerrar sesi\u00F3n</button>
+        <button className="logout-btn" onClick={onLogout}>Cerrar sesión</button>
       </div>
     </div>
   )

@@ -14,7 +14,7 @@ export default function ModalVep({ onSave, onClose }: Props) {
   const [vencimiento, setVencimiento] = useState('')
 
   function handleSave() {
-    if (!periodo || !vencimiento) { alert('Complete per\u00EDodo y vencimiento'); return }
+    if (!periodo || !vencimiento) { alert('Complete período y vencimiento'); return }
     onSave({ concepto, periodo, importe: parseFloat(importe) || 0, vencimiento })
   }
 
@@ -29,13 +29,13 @@ export default function ModalVep({ onSave, onClose }: Props) {
             <option>Ganancias</option>
             <option>Bienes Personales</option>
             <option>Monotributo</option>
-            <option>Aut\u00F3nomos</option>
+            <option>Autónomos</option>
             <option>IIBB</option>
             <option>Otro</option>
           </select>
         </div>
         <div className="form-group">
-          <label>Per\u00EDodo</label>
+          <label>Período</label>
           <input type="text" placeholder="Ej: Mayo 2026" value={periodo} onChange={e => setPeriodo(e.target.value)} />
         </div>
         <div className="form-group">

@@ -33,17 +33,17 @@ export default function VepsPage({ clientData, isAdmin, onUpdate }: Props) {
     <div>
       <div className="page-header">
         <h1>VEPs</h1>
-        <p>Volantes electr\u00F3nicos de pago</p>
+        <p>Volantes electrónicos de pago</p>
       </div>
 
       {urgentes.length > 0 && (
         <div className="alerts-banner orange">
-          <div className="alert-icon">\u26A0\uFE0F</div>
+          <div className="alert-icon">⚠️</div>
           <div className="alert-content">
-            <h4>Atenci\u00F3n \u2014 VEPs por vencer en los pr\u00F3ximos 5 d\u00EDas</h4>
+            <h4>Atención — VEPs por vencer en los próximos 5 días</h4>
             <p>
               {urgentes.map(v =>
-                `${v.concepto} ${v.periodo} \u2014 vence el ${formatFecha(v.vencimiento)}`
+                `${v.concepto} ${v.periodo} — vence el ${formatFecha(v.vencimiento)}`
               ).join(' | ')}
             </p>
           </div>
@@ -61,15 +61,15 @@ export default function VepsPage({ clientData, isAdmin, onUpdate }: Props) {
         </div>
         {pendientes.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-icon">\u2705</div>
+            <div className="empty-icon">✅</div>
             No hay VEPs pendientes.
           </div>
         ) : (
           <table>
             <thead>
               <tr>
-                <th>Concepto</th><th>Per\u00EDodo</th><th>Importe</th>
-                <th>Vencimiento</th><th>D\u00EDas restantes</th><th>Estado</th><th></th>
+                <th>Concepto</th><th>Período</th><th>Importe</th>
+                <th>Vencimiento</th><th>Días restantes</th><th>Estado</th><th></th>
               </tr>
             </thead>
             <tbody>
@@ -83,14 +83,14 @@ export default function VepsPage({ clientData, isAdmin, onUpdate }: Props) {
                     <td>{formatFecha(v.vencimiento)}</td>
                     <td>
                       <span className={dias <= 3 ? 'days-urgente' : dias <= 7 ? 'days-proximo' : 'days-ok'}>
-                        {dias <= 0 ? 'VENCIDO' : `${dias} d\u00EDas`}
+                        {dias <= 0 ? 'VENCIDO' : `${dias} días`}
                       </span>
                     </td>
                     <td><span className="badge badge-orange">Pendiente</span></td>
                     <td>
                       {isAdmin && (
                         <button className="btn-sm btn-download" onClick={() => marcarPagado(v)}>
-                          \u2713 Marcar pagado
+                          ✓ Marcar pagado
                         </button>
                       )}
                     </td>
@@ -110,7 +110,7 @@ export default function VepsPage({ clientData, isAdmin, onUpdate }: Props) {
           <table>
             <thead>
               <tr>
-                <th>Concepto</th><th>Per\u00EDodo</th><th>Importe</th>
+                <th>Concepto</th><th>Período</th><th>Importe</th>
                 <th>Fecha Pago</th><th>Estado</th>
               </tr>
             </thead>

@@ -10,7 +10,7 @@ interface Props {
 export default function ModalArca({ onSave, onClose }: Props) {
   const [fecha, setFecha] = useState('')
   const [asunto, setAsunto] = useState('')
-  const [tipo, setTipo] = useState('Notificaci\u00F3n')
+  const [tipo, setTipo] = useState('Notificación')
   const [desc, setDesc] = useState('')
 
   function handleSave() {
@@ -28,21 +28,21 @@ export default function ModalArca({ onSave, onClose }: Props) {
         </div>
         <div className="form-group">
           <label>Asunto</label>
-          <input type="text" placeholder="Ej: Solicitud de informaci\u00F3n" value={asunto} onChange={e => setAsunto(e.target.value)} />
+          <input type="text" placeholder="Ej: Solicitud de información" value={asunto} onChange={e => setAsunto(e.target.value)} />
         </div>
         <div className="form-group">
           <label>Tipo</label>
           <select value={tipo} onChange={e => setTipo(e.target.value)}>
-            <option>Notificaci\u00F3n</option>
+            <option>Notificación</option>
             <option>Requerimiento</option>
-            <option>Intimaci\u00F3n</option>
-            <option>Resoluci\u00F3n</option>
-            <option>Informaci\u00F3n</option>
+            <option>Intimación</option>
+            <option>Resolución</option>
+            <option>Información</option>
           </select>
         </div>
         <div className="form-group">
-          <label>Descripci\u00F3n / Resumen</label>
-          <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Descripci\u00F3n breve del mensaje..." />
+          <label>Descripción / Resumen</label>
+          <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Descripción breve del mensaje..." />
         </div>
         <div className="modal-actions">
           <button className="btn-cancel" onClick={onClose}>Cancelar</button>
