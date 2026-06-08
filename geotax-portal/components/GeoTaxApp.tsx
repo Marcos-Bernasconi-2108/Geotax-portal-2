@@ -8,13 +8,12 @@ import IvaPage from './pages/IvaPage'
 import DdjjPage from './pages/DdjjPage'
 import VepsPage from './pages/VepsPage'
 import { USERS, MOCK_DATA } from '@/lib/mockData'
-import type { User, ClientDataMap, Page } from '@/lib/types'
+import type { User, ClientDataMap, Page, ClientData } from '@/lib/types'
 
 export default function GeoTaxApp() {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [currentPage, setCurrentPage] = useState<Page>('dashboard')
   const [currentClientId, setCurrentClientId] = useState('client-1')
-  // Copia profunda de los datos demo para poder mutarlos en memoria
   const [data, setData] = useState<ClientDataMap>(JSON.parse(JSON.stringify(MOCK_DATA)))
 
   if (!currentUser) {
@@ -29,9 +28,10 @@ export default function GeoTaxApp() {
   }
 
   const isAdmin = currentUser.role === 'admin'
-  const clientData = data[currentClientId]
+  const clientData = data[currentClientId] as ClientData
+  const clientName = USERS[currentClientId] ? USERS[currentClientId].name : currentUser.name
 
-  function updateClientData(newClientData: typeof clientData) {
+  function updateClientData(newClientData: ClientData) {
     setData(prev => ({ ...prev, [currentClientId]: newClientData }))
   }
 
@@ -51,8 +51,8 @@ export default function GeoTaxApp() {
           <div className="client-selector-bar">
             <label>Viendo datos de:</label>
             <select value={currentClientId} onChange={e => setCurrentClientId(e.target.value)}>
-              <option value="client-1">Juan P\u00E9rez</option>
-              <option value="client-2">Mar\u00EDa Gonz\u00E1lez</option>
+              <option value="client-1">Juan Pérez</option>
+              <option value="client-2">María González</option>
               <option value="client-3">Empresa Demo SRL</option>
             </select>
             <span style={{ color: '#93c5fd', fontSize: 13, marginLeft: 'auto' }}>
@@ -60,13 +60,11 @@ export default function GeoTaxApp() {
             </span>
           </div>
         )}
-
         {currentPage === 'dashboard' && (
           <DashboardPage
             clientData={clientData}
-            clientName={USERS[currentClientId].name}
+            clientName={clientName}
             isAdmin={isAdmin}
-            onNavigate={setCurrentPage}
           />
         )}
         {currentPage === 'arca' && (
