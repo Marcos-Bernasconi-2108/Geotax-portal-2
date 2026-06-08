@@ -1,4 +1,4 @@
-use client'
+'use client'
 import { useState } from 'react'
 import { formatFecha } from '@/lib/utils'
 import ModalArca from '../modals/ModalArca'
