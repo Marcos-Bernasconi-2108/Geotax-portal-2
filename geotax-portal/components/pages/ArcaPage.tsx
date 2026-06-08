@@ -62,25 +62,21 @@ export default function ArcaPage({ clientData, isAdmin, onUpdate }: Props) {
             </thead>
             <tbody>
               {clientData.arca.map((msg, i) => (
-                <tr key={i}>
+                <tr key={i} style={{ opacity: msg.leido ? 0.7 : 1 }}>
                   <td>{formatFecha(msg.fecha)}</td>
-                  <td><strong>{msg.asunto}</strong></td>
-                  <td>
-                    <span className={`badge ${TIPO_BADGE[msg.tipo] || 'badge-gray'}`}>
-                      {msg.tipo}
-                    </span>
-                  </td>
-                  <td style={{ maxWidth: 300, fontSize: 13, color: '#6b7280' }}>{msg.desc}</td>
+                  <td style={{ fontWeight: msg.leido ? 'normal' : 'bold' }}>{msg.asunto}</td>
+                  <td><span className={TIPO_BADGE[msg.tipo] || 'badge-gray'}>{msg.tipo}</span></td>
+                  <td>{msg.desc}</td>
                   <td>
                     {msg.leido
-                      ? <span className="badge badge-gray">Leído</span>
-                      : <span className="badge badge-blue">Nuevo</span>
+                      ? <span className="badge-gray">Leído</span>
+                      : <span className="badge-red">Sin leer</span>
                     }
                   </td>
                   <td>
                     {!msg.leido && (
-                      <button className="btn-sm btn-download" onClick={() => marcarLeido(i)}>
-                        ✓ Marcar leído
+                      <button className="btn-sm" onClick={() => marcarLeido(i)}>
+                        Marcar leído
                       </button>
                     )}
                   </td>

@@ -13,20 +13,20 @@ interface Props {
 export default function IvaPage({ clientData, isAdmin, onUpdate }: Props) {
   const [showModal, setShowModal] = useState(false)
 
-  function guardarIva(record: IVARecord) {
-    onUpdate({ ...clientData, iva: [record, ...clientData.iva] })
+  function guardarIva(rec: IVARecord) {
+    onUpdate({ ...clientData, iva: [rec, ...clientData.iva] })
     setShowModal(false)
   }
 
   return (
     <div>
       <div className="page-header">
-        <h1>Liquidación IVA</h1>
-        <p>Historial de liquidaciones mensuales</p>
+        <h1>Liquidaciones IVA</h1>
+        <p>Historial de liquidaciones de IVA presentadas</p>
       </div>
       <div className="table-card">
         <div className="table-card-header">
-          <h3>Liquidaciones Mensuales</h3>
+          <h3>Liquidaciones</h3>
           {isAdmin && (
             <button className="btn-sm btn-add" onClick={() => setShowModal(true)}>
               + Cargar liquidación
@@ -41,19 +41,16 @@ export default function IvaPage({ clientData, isAdmin, onUpdate }: Props) {
         ) : (
           <table>
             <thead>
-              <tr><th>Período</th><th>Archivo</th><th></th></tr>
+              <tr><th>Período</th><th>Archivo</th><th>Acción</th></tr>
             </thead>
             <tbody>
               {clientData.iva.map((r, i) => (
                 <tr key={i}>
-                  <td><strong>{formatPeriodo(r.periodo)}</strong></td>
-                  <td style={{ color: '#6b7280', fontSize: 13 }}>📎 {r.archivo}</td>
+                  <td>{formatPeriodo(r.periodo)}</td>
+                  <td>{r.archivo}</td>
                   <td>
-                    <button
-                      className="btn-sm btn-download"
-                      onClick={() => alert('Próximamente conectado a Supabase Storage')}
-                    >
-                      ⬇ Descargar
+                    <button className="btn-sm" onClick={() => alert('Función de descarga próximamente')}>
+                      Descargar
                     </button>
                   </td>
                 </tr>
