@@ -1,4 +1,4 @@
-'use client'
+use client'
 import { useState } from 'react'
 import { formatFecha } from '@/lib/utils'
 import ModalArca from '../modals/ModalArca'
@@ -15,7 +15,6 @@ interface Props {
 const TIPO_BADGE: Record<string, string> = {
   'Requerimiento': 'badge-red',
   'Intimacion': 'badge-red',
-  'Notificacion': 'badge-blue',
   'Notificacion': 'badge-blue',
   'Resolucion': 'badge-orange',
   'Informacion': 'badge-gray',
