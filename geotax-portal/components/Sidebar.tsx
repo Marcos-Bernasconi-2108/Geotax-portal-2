@@ -1,47 +1,46 @@
 'use client'
-import type { Page } from '@/lib/types'
+import type { User, Page } from '@/lib/types'
 
 interface Props {
+  currentUser: User
   currentPage: Page
   onNavigate: (page: Page) => void
   onLogout: () => void
-  clientName: string
 }
 
-const NAV_ITEMS: { id: Page; label: string; icon: string }[] = [
-  { id: 'dashboard', label: 'Inicio', icon: '🏠' },
-  { id: 'arca',      label: 'ARCA',   icon: '🔔' },
-  { id: 'iva',       label: 'IVA',    icon: '📊' },
-  { id: 'ddjj',      label: 'DDJJ',   icon: '📄' },
-  { id: 'veps',      label: 'VEPs',   icon: '💳' },
+const NAV_ITEMS: { id: Page; icon: string; label: string }[] = [
+  { id: 'dashboard', icon: '\u{1F3E0}', label: 'Inicio' },
+  { id: 'arca',      icon: '\u{1F514}', label: 'Mensajes ARCA' },
+  { id: 'iva',       icon: '\u{1F4CA}', label: 'Liquidaci\u00F3n IVA' },
+  { id: 'ddjj',      icon: '\u{1F4C4}', label: 'Mis DDJJ' },
+  { id: 'veps',      icon: '\u{1F4B3}', label: 'VEPs' },
 ]
 
-export default function Sidebar({ currentPage, onNavigate, onLogout, clientName }: Props) {
+export default function Sidebar({ currentUser, currentPage, onNavigate, onLogout }: Props) {
   return (
-    <aside className="sidebar">
+    <div className="sidebar">
       <div className="sidebar-logo">
-        <span className="logo-icon">G</span>
-        <span>GeoTax</span>
+        GeoTax{' '}
+        <span>{currentUser.role === 'admin' ? 'Administrador' : 'Portal de Clientes'}</span>
       </div>
-      <div className="sidebar-client">
-        <div className="sidebar-client-label">Cliente</div>
-        <div className="sidebar-client-name">{clientName}</div>
-      </div>
-      <nav className="sidebar-nav">
+      <div className="nav-section">
+        <div className="nav-label">Mi Cuenta</div>
         {NAV_ITEMS.map(item => (
-          <button
+          <div
             key={item.id}
             className={`nav-item${currentPage === item.id ? ' active' : ''}`}
             onClick={() => onNavigate(item.id)}
           >
-            <span className="nav-icon">{item.icon}</span>
-            <span>{item.label}</span>
-          </button>
+            <span className="icon">{item.icon}</span>
+            {item.label}
+          </div>
         ))}
-      </nav>
-      <div className="sidebar-footer">
-        <button className="logout-btn" onClick={onLogout}>Cerrar sesión</button>
       </div>
-    </aside>
+      <div className="sidebar-footer">
+        <strong>{currentUser.name}</strong>
+        <span>{currentUser.cuit}</span>
+        <button className="logout-btn" onClick={onLogout}>Cerrar sesi\u00F3n</button>
+      </div>
+    </div>
   )
 }

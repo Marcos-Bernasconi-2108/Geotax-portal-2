@@ -3,48 +3,52 @@ import { useState } from 'react'
 import type { VEPRecord } from '@/lib/types'
 
 interface Props {
-  onSave: (rec: VEPRecord) => void
+  onSave: (record: Omit<VEPRecord, 'pagado'>) => void
   onClose: () => void
 }
 
-const CONCEPTOS = ['IVA', 'Ganancias', 'Bienes Personales', 'IIBB', 'Empleados', 'Otro']
-
 export default function ModalVep({ onSave, onClose }: Props) {
-  const [concepto, setConcepto] = useState(CONCEPTOS[0])
+  const [concepto, setConcepto] = useState('IVA')
   const [periodo, setPeriodo] = useState('')
   const [importe, setImporte] = useState('')
   const [vencimiento, setVencimiento] = useState('')
 
   function handleSave() {
-    if (!periodo.trim() || !importe || !vencimiento) return
-    onSave({ concepto, periodo, importe: Number(importe), vencimiento, pagado: false })
+    if (!periodo || !vencimiento) { alert('Complete per\u00EDodo y vencimiento'); return }
+    onSave({ concepto, periodo, importe: parseFloat(importe) || 0, vencimiento })
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
+    <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal">
         <h2>Cargar VEP</h2>
         <div className="form-group">
           <label>Concepto</label>
           <select value={concepto} onChange={e => setConcepto(e.target.value)}>
-            {CONCEPTOS.map(c => <option key={c} value={c}>{c}</option>)}
+            <option>IVA</option>
+            <option>Ganancias</option>
+            <option>Bienes Personales</option>
+            <option>Monotributo</option>
+            <option>Aut\u00F3nomos</option>
+            <option>IIBB</option>
+            <option>Otro</option>
           </select>
         </div>
         <div className="form-group">
-          <label>Período (YYYY-MM)</label>
-          <input type="text" value={periodo} onChange={e => setPeriodo(e.target.value)} placeholder="2024-01" />
+          <label>Per\u00EDodo</label>
+          <input type="text" placeholder="Ej: Mayo 2026" value={periodo} onChange={e => setPeriodo(e.target.value)} />
         </div>
         <div className="form-group">
           <label>Importe ($)</label>
-          <input type="number" value={importe} onChange={e => setImporte(e.target.value)} placeholder="0" />
+          <input type="number" placeholder="0.00" value={importe} onChange={e => setImporte(e.target.value)} />
         </div>
         <div className="form-group">
-          <label>Fecha de vencimiento</label>
+          <label>Fecha de Vencimiento</label>
           <input type="date" value={vencimiento} onChange={e => setVencimiento(e.target.value)} />
         </div>
         <div className="modal-actions">
-          <button className="btn-sm" onClick={onClose}>Cancelar</button>
-          <button className="btn-sm btn-add" onClick={handleSave}>Guardar</button>
+          <button className="btn-cancel" onClick={onClose}>Cancelar</button>
+          <button className="btn-save" onClick={handleSave}>Guardar</button>
         </div>
       </div>
     </div>
