@@ -1,54 +1,98 @@
-'use client'
+use client'
 import { useState } from 'react'
-import type { ARCAMessage } from '@/lib/types'
+import { formatFecha } from '@/lib/utils'
+import ModalArca from '../modals/ModalArca'
+import type { ClientData, ARCAMessage } from '@/lib/types'
+
+const ICON_MAIL = String.fromCodePoint(0x1F4EC)
 
 interface Props {
-  onSave: (msg: Omit<ARCAMessage, 'leido'>) => void
-  onClose: () => void
+  clientData: ClientData
+  isAdmin: boolean
+  onUpdate: (newData: ClientData) => void
 }
 
-export default function ModalArca({ onSave, onClose }: Props) {
-  const [fecha, setFecha] = useState('')
-  const [asunto, setAsunto] = useState('')
-  const [tipo, setTipo] = useState('Notificaci\u00F3n')
-  const [desc, setDesc] = useState('')
+const TIPO_BADGE: Record<string, string> = {
+  'Requerimiento': 'badge-red',
+  'Intimacion': 'badge-red',
+  'Notificacion': 'badge-blue',
+  'Resolucion': 'badge-orange',
+  'Informacion': 'badge-gray',
+  'Intimaci?n': 'badge-red',
+  'Notificaci?n': 'badge-blue',
+  'Resoluci?n': 'badge-orange',
+  'Informaci?n': 'badge-gray',
+}
 
-  function handleSave() {
-    if (!fecha || !asunto) { alert('Complete fecha y asunto'); return }
-    onSave({ fecha, asunto, tipo, desc })
+export default function ArcaPage({ clientData, isAdmin, onUpdate }: Props) {
+  const [showModal, setShowModal] = useState(false)
+
+  function marcarLeido(idx: number) {
+    const newArca = [...clientData.arca]
+    newArca[idx] = { ...newArca[idx], leido: true }
+    onUpdate({ ...clientData, arca: newArca })
+  }
+
+  function guardarArca(msg: Omit<ARCAMessage, 'leido'>) {
+    onUpdate({ ...clientData, arca: [{ ...msg, leido: false }, ...clientData.arca] })
+    setShowModal(false)
   }
 
   return (
-    <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="modal">
-        <h2>Cargar Mensaje ARCA</h2>
-        <div className="form-group">
-          <label>Fecha del mensaje</label>
-          <input type="date" value={fecha} onChange={e => setFecha(e.target.value)} />
-        </div>
-        <div className="form-group">
-          <label>Asunto</label>
-          <input type="text" placeholder="Ej: Solicitud de informaci\u00F3n" value={asunto} onChange={e => setAsunto(e.target.value)} />
-        </div>
-        <div className="form-group">
-          <label>Tipo</label>
-          <select value={tipo} onChange={e => setTipo(e.target.value)}>
-            <option>Notificaci\u00F3n</option>
-            <option>Requerimiento</option>
-            <option>Intimaci\u00F3n</option>
-            <option>Resoluci\u00F3n</option>
-            <option>Informaci\u00F3n</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label>Descripci\u00F3n / Resumen</label>
-          <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Descripci\u00F3n breve del mensaje..." />
-        </div>
-        <div className="modal-actions">
-          <button className="btn-cancel" onClick={onClose}>Cancelar</button>
-          <button className="btn-save" onClick={handleSave}>Guardar</button>
-        </div>
+    <div>
+      <div className="page-header">
+        <h1>Mensajes ARCA</h1>
+        <p>Notificaciones y comunicaciones de AFIP / ARCA</p>
       </div>
+      <div className="table-card">
+        <div className="table-card-header">
+          <h3>Bandeja de mensajes</h3>
+          {isAdmin && (
+            <button className="btn-sm btn-add" onClick={() => setShowModal(true)}>
+              + Cargar mensaje
+            </button>
+          )}
+        </div>
+        {clientData.arca.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">{ICON_MAIL}</div>
+            No hay mensajes cargados.
+          </div>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th><th>Asunto</th><th>Tipo</th>
+                <th>Descripci?n</th><th>Estado</th><th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {clientData.arca.map((msg, i) => (
+                <tr key={i} style={{ opacity: msg.leido ? 0.7 : 1 }}>
+                  <td>{formatFecha(msg.fecha)}</td>
+                  <td style={{ fontWeight: msg.leido ? 'normal' : 'bold' }}>{msg.asunto}</td>
+                  <td><span className={TIPO_BADGE[msg.tipo] || 'badge-gray'}>{msg.tipo}</span></td>
+                  <td>{msg.desc}</td>
+                  <td>
+                    {msg.leido
+                      ? <span className="badge-gray">Le?do</span>
+                      : <span className="badge-red">Sin leer</span>
+                    }
+                  </td>
+                  <td>
+                    {!msg.leido && (
+                      <button className="btn-sm" onClick={() => marcarLeido(i)}>
+                        Marcar le?do
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+      {showModal && <ModalArca onSave={guardarArca} onClose={() => setShowModal(false)} />}
     </div>
   )
 }
