@@ -67,8 +67,7 @@ export default function GeoTaxApp() {
   const isAdmin = currentUser.role === 'admin'
   const clientId = currentClientId
   const clientData = data[clientId] ?? { iva: [], ddjj: [], veps: [], arca: [] }
-  const clientUser = USERS.find(u => u.cuit === clientId)
-  const clientName = isAdmin ? (clientUser ? clientUser.name : 'Cliente') : currentUser.name
+  const clientName = isAdmin ? 'Cliente' : currentUser.name
 
   const pageProps = {
     clientData,
@@ -89,9 +88,9 @@ export default function GeoTaxApp() {
           <div className="client-selector-bar">
             <label>Viendo cliente:</label>
             <select value={clientId} onChange={e => setCurrentClientId(e.target.value)}>
-              {USERS.filter(u => u.role === 'client').map(u => (
-                <option key={u.cuit} value={u.cuit}>{u.name}</option>
-              ))}
+              <option value="client-1">Juan Pérez</option>
+              <option value="client-2">María González</option>
+              <option value="client-3">Empresa Demo SRL</option>
             </select>
           </div>
         )}
