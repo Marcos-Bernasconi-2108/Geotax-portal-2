@@ -1,7 +1,3 @@
-// ============================================================
-// CLIENTE SUPABASE
-// Configurar las variables de entorno en .env.local
-// ============================================================
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
