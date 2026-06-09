@@ -39,13 +39,45 @@ export default function SignUpScreen({ onSignUpSuccess }: Props) {
     }
 
     try {
-      const { error: signUpError } = await supabase.auth.signUp({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
       })
 
       if (signUpError) {
         setError(signUpError.message || 'Error al registrarse')
+        setLoading(false)
+        return
+      }
+
+      if (!data.user) {
+        setError('Error al crear la cuenta')
+        setLoading(false)
+        return
+      }
+
+      // Verificar si el email es de un admin
+      const { data: adminCheck } = await supabase
+        .from('admin_users')
+        .select('id')
+        .eq('email', email.toLowerCase())
+        .single()
+
+      const role = adminCheck ? 'admin' : 'client'
+      const clientId = role === 'admin' ? null : 'client-1'
+
+      // Crear perfil en la tabla profiles
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          id: data.user.id,
+          name: email.split('@')[0],
+          role,
+          client_id: clientId,
+        })
+
+      if (profileError) {
+        setError('Error al crear el perfil')
         setLoading(false)
         return
       }

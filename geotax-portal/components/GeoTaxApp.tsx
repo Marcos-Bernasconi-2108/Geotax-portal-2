@@ -25,18 +25,17 @@ export default function GeoTaxApp() {
     async function checkSession() {
       const { data: { session } } = await supabase.auth.getSession()
       if (session?.user) {
-        const employeeEmails = [
-          'gaston.bernasconi@geotax.com.ar',
-          'marcos.bernasconi@geotax.com.ar',
-          'santiago.cremonini@geotax.com.ar',
-          'belen.valdes@geotax.com.ar',
-          'luana.campos@geotax.com.ar'
-        ]
-        const isAdmin = employeeEmails.includes(session.user.email?.toLowerCase() || '')
+        // Obtener rol de la tabla profiles
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role, name')
+          .eq('id', session.user.id)
+          .single()
+
         const user: User = {
           cuit: session.user.id,
-          name: session.user.email?.split('@')[0] || 'Usuario',
-          role: isAdmin ? 'admin' : 'client'
+          name: profile?.name || session.user.email?.split('@')[0] || 'Usuario',
+          role: (profile?.role as 'admin' | 'client') || 'client'
         }
         setCurrentUser(user)
       }

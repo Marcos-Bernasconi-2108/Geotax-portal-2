@@ -38,21 +38,17 @@ export default function LoginScreen({ onLogin, onSignUpClick }: Props) {
         return
       }
 
-      // Determinar rol del usuario (admin o cliente)
-      // Por ahora, asumimos que es admin si el email está en la lista de empleados
-      const employeeEmails = [
-        'gaston.bernasconi@geotax.com.ar',
-        'marcos.bernasconi@geotax.com.ar',
-        'santiago.cremonini@geotax.com.ar',
-        'belen.valdes@geotax.com.ar',
-        'luana.campos@geotax.com.ar'
-      ]
+      // Obtener rol de la tabla profiles
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role, name')
+        .eq('id', data.user.id)
+        .single()
 
-      const isAdmin = employeeEmails.includes(email.toLowerCase())
       const user: User = {
         cuit: data.user.id,
-        name: data.user.email?.split('@')[0] || 'Usuario',
-        role: isAdmin ? 'admin' : 'client'
+        name: profile?.name || data.user.email?.split('@')[0] || 'Usuario',
+        role: (profile?.role as 'admin' | 'client') || 'client'
       }
 
       onLogin(user, null)
