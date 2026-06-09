@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase'
 import { USERS, MOCK_DATA } from '@/lib/mockData'
 import type { User, Page, ClientData } from '@/lib/types'
 import LoginScreen from './LoginScreen'
+import SignUpScreen from './SignUpScreen'
 import Sidebar from './Sidebar'
 import DashboardPage from './pages/DashboardPage'
 import ArcaPage from './pages/ArcaPage'
@@ -17,6 +18,7 @@ export default function GeoTaxApp() {
   const [currentClientId, setCurrentClientId] = useState<string>('client-1')
   const [data, setData] = useState<typeof MOCK_DATA>(() => JSON.parse(JSON.stringify(MOCK_DATA)))
   const [loading, setLoading] = useState(true)
+  const [showSignUp, setShowSignUp] = useState(false)
 
   // Verificar sesión de Supabase al cargar
   useEffect(() => {
@@ -62,7 +64,13 @@ export default function GeoTaxApp() {
     setData(prev => ({ ...prev, [clientId]: newData }))
   }
 
-  if (!currentUser) return <LoginScreen onLogin={handleLogin} />
+  if (!currentUser) {
+    return showSignUp ? (
+      <SignUpScreen onSignUpSuccess={() => setShowSignUp(false)} />
+    ) : (
+      <LoginScreen onLogin={handleLogin} onSignUpClick={() => setShowSignUp(true)} />
+    )
+  }
 
   const isAdmin = currentUser.role === 'admin'
   const clientId = currentClientId
