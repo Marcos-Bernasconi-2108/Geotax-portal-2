@@ -69,6 +69,8 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a2b3c;
 }
 .logout-btn:hover { background: rgba(255,255,255,0.15); color: white; }
 
+.app-container { display: flex; min-height: 100vh; }
+.main-content { margin-left: 240px; padding: 32px; flex: 1; min-height: 100vh; overflow-y: auto; }
 .main { margin-left: 240px; padding: 32px; min-height: 100vh; }
 
 /* ---- HEADER ---- */
