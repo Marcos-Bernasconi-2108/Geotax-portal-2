@@ -42,15 +42,13 @@ export default function GeoTaxApp() {
       supabase.from('vep_records').select('*').eq('client_id', clientId),
       supabase.from('arca_messages').select('*').eq('client_id', clientId),
     ])
-    setData(prev => ({
-      ...prev,
-      [clientId]: {
-        iva: (iva.data || []).map(r => ({ periodo: r.periodo, debito: r.debito, credito: r.credito, saldo: r.saldo, vencimiento: r.vencimiento, estado: r.estado })),
-        ddjj: (ddjj.data || []).map(r => ({ tipo: r.tipo, periodo: r.periodo, vencimiento: r.vencimiento, estado: r.estado, importe: r.importe })),
-        veps: (veps.data || []).map(r => ({ id: r.id, concepto: r.concepto, periodo: r.periodo, vencimiento: r.vencimiento, importe: r.importe, pagado: r.pagado })),
-        arca: (arca.data || []).map(r => ({ id: r.id, fecha: r.fecha, tipo: r.tipo, asunto: r.asunto, cuerpo: r.cuerpo, leido: r.leido })),
-      }
-    }))
+    const clientData: ClientData = {
+      iva: (iva.data || []) as any,
+      ddjj: (ddjj.data || []) as any,
+      veps: (veps.data || []) as any,
+      arca: (arca.data || []) as any,
+    }
+    setData(prev => ({ ...prev, [clientId]: clientData }))
   }
 
   if (!currentUser) {
