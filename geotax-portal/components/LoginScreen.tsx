@@ -6,9 +6,10 @@ import type { User } from '@/lib/types'
 
 interface Props {
   onLogin: (user: User, clientId: string | null) => void
+  onSignUpClick?: () => void
 }
 
-export default function LoginScreen({ onLogin }: Props) {
+export default function LoginScreen({ onLogin, onSignUpClick }: Props) {
   const [email, setEmail]           = useState('')
   const [password, setPassword]     = useState('')
   const [error, setError]           = useState('')
@@ -99,6 +100,9 @@ export default function LoginScreen({ onLogin }: Props) {
         >
           {loading ? 'Ingresando...' : 'Ingresar'}
         </button>
+        <p style={{ color: '#888', marginTop: '1rem', fontSize: '0.85rem', textAlign: 'center' }}>
+          ¿No tienes cuenta? <span onClick={onSignUpClick} style={{ color: '#0066cc', cursor: 'pointer' }}>Regístrate aquí</span>
+        </p>
       </div>
     </div>
   )
