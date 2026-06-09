@@ -47,12 +47,7 @@ export default function GeoTaxApp() {
 
   function handleLogin(user: User, clientId: string | null) {
     setCurrentUser(user)
-    if (clientId) {
-      setCurrentClientId(clientId)
-    } else {
-      const firstClient = USERS.find(u => u.role === 'client')
-      setCurrentClientId(firstClient ? firstClient.cuit : 'client-1')
-    }
+    setCurrentClientId('client-1')
     setCurrentPage('dashboard')
   }
 
