@@ -1,13 +1,24 @@
+import { NextRequest, NextResponse } from 'next/server';
+import Anthropic from '@anthropic-ai/sdk';
+import { createClient } from '@supabase/supabase-js';
+
+const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
 export async function POST(req: NextRequest) {
   try {
-    // Obtener token del header
     const authHeader = req.headers.get('authorization');
-    let userId = 'user-123'; // Default si no hay token
+    let userId = 'user-123';
 
     if (authHeader?.startsWith('Bearer ')) {
       const token = authHeader.slice(7);
-      // Aquí validarías el token si es necesario
-      // Por ahora usamos el token como está
+      // Token validation here if needed
     }
 
     const { question } = await req.json();
@@ -20,7 +31,14 @@ export async function POST(req: NextRequest) {
     }
 
     const message = await client.messages.create({
-      // ... resto del código igual
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 1024,
+      messages: [
+        {
+          role: 'user',
+          content: `Eres un asistente contable experto en impuestos argentinos. Responde esta pregunta de forma clara y profesional: ${question}`,
+        },
+      ],
     });
 
     const response = (message.content[0] as { type: string; text: string }).text;
@@ -32,6 +50,10 @@ export async function POST(req: NextRequest) {
         question,
         response,
       });
+
+    if (dbError) {
+      console.error('DB Error:', dbError);
+    }
 
     return NextResponse.json({ response });
   } catch (error) {
