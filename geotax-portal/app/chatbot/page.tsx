@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 export default function ChatbotPage() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<{ role: 'user' | 'bot'; content: string }[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
