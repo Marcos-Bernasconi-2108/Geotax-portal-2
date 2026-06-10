@@ -14,6 +14,7 @@ const NAV_ITEMS: { id: Page; label: string; icon: string }[] = [
   { id: 'iva',       label: 'IVA',    icon: '📊' },
   { id: 'ddjj',      label: 'DDJJ',   icon: '📄' },
   { id: 'veps',      label: 'VEPs',   icon: '💳' },
+  { id: 'chatbot',   label: 'Chatbot', icon: '💬' },
 ]
 
 export default function Sidebar({ currentPage, onNavigate, onLogout, clientName }: Props) {

@@ -45,4 +45,4 @@ export interface ClientData {
 
 export type ClientDataMap = Record<string, ClientData>
 
-export type Page = 'dashboard' | 'arca' | 'iva' | 'ddjj' | 'veps'
+export type Page = 'dashboard' | 'arca' | 'iva' | 'ddjj' | 'veps' | 'chatbot'

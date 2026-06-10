@@ -11,6 +11,7 @@ import ArcaPage from './pages/ArcaPage'
 import IvaPage from './pages/IvaPage'
 import DdjjPage from './pages/DdjjPage'
 import VepsPage from './pages/VepsPage'
+import ChatbotPage from '@/app/chatbot/page'
 
 export default function GeoTaxApp() {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
@@ -106,6 +107,7 @@ export default function GeoTaxApp() {
         {currentPage === 'iva'       && <IvaPage        {...pageProps} />}
         {currentPage === 'ddjj'      && <DdjjPage       {...pageProps} />}
         {currentPage === 'veps'      && <VepsPage       {...pageProps} />}
+        {currentPage === 'chatbot' && <ChatbotPage />}
       </main>
     </div>
   )
