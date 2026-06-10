@@ -3,6 +3,13 @@ import { NextResponse, NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 
 export async function middleware(request: NextRequest) {
+  // Permitir /api/chat sin autenticación
+  if (request.nextUrl.pathname === '/api/chat') {
+    return NextResponse.next({
+      request: { headers: request.headers }
+    });
+  }
+
   const response = NextResponse.next({
     request: { headers: request.headers }
   });
