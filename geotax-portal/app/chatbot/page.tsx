@@ -10,8 +10,8 @@ export default function ChatbotPage() {
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
-    const userMessage = { role: 'user', content: input };
-    setMessages([...messages, userMessage]);
+    const userMessage: { role: 'user' | 'bot'; content: string } = { role: 'user', content: input };
+setMessages([...messages, userMessage]);
     setInput('');
     setLoading(true);
 
@@ -26,7 +26,7 @@ export default function ChatbotPage() {
       });
 
       const data = await response.json();
-      const botMessage = { role: 'bot', content: data.response };
+      const botMessage: { role: 'user' | 'bot'; content: string } = { role: 'bot', content: data.response };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
       console.error('Error:', error);
