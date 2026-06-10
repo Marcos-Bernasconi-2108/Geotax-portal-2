@@ -11,7 +11,7 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 )
-) {
+ {
   try {
     // 1. OBTENER JWT DEL HEADER
     const authHeader = req.headers.get('authorization');
