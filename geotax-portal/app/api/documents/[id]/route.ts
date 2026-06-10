@@ -10,9 +10,9 @@ const supabase = createClient(
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-)
- {
+) {
   try {
+    const { id } = await params;
     // 1. OBTENER JWT DEL HEADER
     const authHeader = req.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -36,7 +36,7 @@ export async function GET(
     // 3. VALIDAR AUTORIZACIÓN
     const { authorized, error } = await validateDocumentAccess(
       user.id,
-      params.id
+      id
     );
 
     if (!authorized) {
@@ -45,7 +45,7 @@ export async function GET(
         user_id: user.id,
         action: 'download',
         resource_type: 'document',
-        resource_id: params.id,
+        resource_id: id,
         status: 'failure',
         error_message: error
       });
@@ -60,7 +60,7 @@ export async function GET(
     const { data: document, error: docError } = await supabase
       .from('documents')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (docError || !document) {
@@ -75,7 +75,7 @@ export async function GET(
       user_id: user.id,
       action: 'download',
       resource_type: 'document',
-      resource_id: params.id,
+      resource_id: id,
       status: 'success'
     });
 
