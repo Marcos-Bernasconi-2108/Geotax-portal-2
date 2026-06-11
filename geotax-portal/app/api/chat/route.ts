@@ -52,9 +52,16 @@ Si no sabes la respuesta, indica que el cliente debe contactar directamente con 
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error('Error de Claude API:', errorData);
+      console.error('Error de Claude API:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData
+      });
       return NextResponse.json(
-        { error: 'Error al procesar la pregunta' },
+        {
+          error: `Error ${response.status}: ${errorData.error?.message || 'Error al procesar la pregunta'}`,
+          details: process.env.NODE_ENV === 'development' ? errorData : undefined
+        },
         { status: response.status }
       );
     }
